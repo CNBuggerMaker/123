@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>简易聊天室</title>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js" ></script>
+</head>
+<body>
+
+<label>聊  天  室 </label>
+<!--  默认当前为r1房间聊天室  登录用户为小1 -->
+<br/>
+
+
+<label >用户姓名  </label><input id="userName" value="小1"/>
+<button id="join">加入聊天室</button>
+<button id="leave">离开聊天室</button>
+
+<br/><br/>
+
+<label for="room_msg">群发消息  </label><input id="room_msg" value=""/>
+<button id="btn_send_all">发送消息</button>
+<br/><br/><br/>
+<label >
+    <input style="width: 200px;height: 200px" id="msg" value=""/>
+
+</label>
+<!--  默认当前为r1房间聊天室  登录用户为小1 -->
+<input type="hidden" id="roomId" value="r1">
+<input type="hidden" id="userId" value="1">
+
+<br/><br/><br/>
+
+</body>
+
+<script type="text/javascript">
+
+    var roomId = $("#roomId").val();
+    var userId = $("#userId").val();
+    var userName = $("#userName").val();
+
+    $(document).ready(function(){
+        $("#join").click(function(){
+            $.ajax({
+                type:"GET",
+                url:" http://localhost:8080/joinChat?roomId="+roomId+"&userId="+userId+"&userName="+userName,
+                dataType:"text",
+                success:function(data){
+                    $("#msg").val(data);
+                },
+                error:function(jqXHR){
+                    console.log("Error");
+                }
+            });
+        });
+    });
+
+    $(document).ready(function(){
+        $("#leave").click(function(){
+            $.ajax({
+                type:"GET",
+                url:" http://localhost:8080/leaveChat?roomId="+roomId+"&userId="+userId+"&userName="+userName,
+                dataType:"text",
+                success:function(data){
+                    $("#msg").val(data);
+                },
+                error:function(jqXHR){
+                    console.log("Error");
+                }
+            });
+        });
+    });
+
+</script>
+
+</html>
